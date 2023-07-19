@@ -83,23 +83,60 @@
 
 TaskHandle_t LedTask_Handler = NULL;
 
+TaskHandle_t PBTask_Handler = NULL;
+
+uint8_t state=0;
+
 static void prvSetupHardware( void );
 /*-----------------------------------------------------------*/
 
 /* Task to be created. */
-void Led_Task(void * pvParameters)
+
+void LED_Task(void * pvParameters)
 {
 	for( ; ; )
 	{
-		GPIO_write(PORT_0,PIN1, PIN_IS_HIGH);
+		static uint8_t LED_state=0,flag=0;	
 		
-		vTaskDelay(1000);
+		if(state==0 && LED_state==1)
+		{
+			//GPIO_toggle(PORT_0,PIN1);
+			if(flag==0)
+			{
+				GPIO_write(PORT_0,PIN1,PIN_IS_HIGH);
+				flag=1;
+			}
+			else
+			{
+				GPIO_write(PORT_0,PIN1,PIN_IS_LOW);
+				flag=0;
+			}
+		}
 		
-		GPIO_write(PORT_0,PIN1, PIN_IS_LOW);
-		
-		vTaskDelay(1000);
+		 LED_state = state;
+		taskYIELD();
 	}
 }
+
+void PB_Task(void * pvParameters)
+{
+	for( ; ; )
+	{
+		if(GPIO_read(PORT_0, PIN0)==PIN_IS_LOW)
+		{
+			state = 0;
+		}
+		else if(GPIO_read(PORT_0, PIN0)==PIN_IS_HIGH)
+		{
+			state=1;
+		}
+		taskYIELD();
+	}
+	
+}
+
+
+
 
 /*
  * Application entry point:
@@ -112,14 +149,25 @@ int main( void )
 
 	
     /* Create Tasks here */
-		xTaskCreate(
-			Led_Task,
-			"Led_Task",
+	
+	xTaskCreate(
+			PB_Task,
+			"PB_Task",
 			configMINIMAL_STACK_SIZE,
 			(void * ) NULL,
 			1,
-	&LedTask_Handler);
+			&PBTask_Handler);
+			
+		xTaskCreate(
+			LED_Task,
+			"LED_Task",
+			configMINIMAL_STACK_SIZE,
+			(void * ) NULL,
+			1,
+			&LedTask_Handler);
 
+			
+			
 	/* Now all the tasks have been started - start the scheduler.
 
 	NOTE : Tasks run in system mode and the scheduler runs in Supervisor mode.
