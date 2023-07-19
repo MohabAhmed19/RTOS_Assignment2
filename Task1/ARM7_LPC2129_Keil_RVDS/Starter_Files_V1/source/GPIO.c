@@ -108,19 +108,3 @@ void GPIO_write(portX_t portName, pinX_t pinNum, pinState_t pinState)
 			}
 	}
 }
-
-extern void GPIO_toggle(portX_t portName, pinX_t pinNum)
-{
-	switch(portName)
-	{
-		case PORT_0:
-			TOG_BIT(IOCLR0, pinNum);
-			
-			break;
-
-		case PORT_1:
-			TOG_BIT(IOCLR1, pinNum);
-			
-		break;
-	}
-}

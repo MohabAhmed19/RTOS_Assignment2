@@ -55,6 +55,7 @@ typedef enum
 extern void GPIO_init(void);
 extern pinState_t GPIO_read(portX_t PortName, pinX_t pinNum);
 extern void GPIO_write(portX_t PortName, pinX_t PinNum, pinState_t pinState);
+extern void GPIO_toggle(portX_t PortName, pinX_t PinNum);
 
 
 

@@ -461,34 +461,34 @@
           <GroupName>FreeRTOS</GroupName>
           <Files>
             <File>
-              <FileName>port.c</FileName>
+              <FileName>tasks.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Source\portable\RVDS\ARM7_LPC21xx\port.c</FilePath>
-            </File>
-            <File>
-              <FileName>portASM.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Source\portable\RVDS\ARM7_LPC21xx\portASM.s</FilePath>
-            </File>
-            <File>
-              <FileName>heap_2.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Source\portable\MemMang\heap_2.c</FilePath>
+              <FilePath>..\..\Source\tasks.c</FilePath>
             </File>
             <File>
               <FileName>list.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Source\list.c</FilePath>
-            </File>
-            <File>
-              <FileName>tasks.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Source\tasks.c</FilePath>
+              <FilePath>..\..\Source\list.c</FilePath>
             </File>
             <File>
               <FileName>queue.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Source\queue.c</FilePath>
+              <FilePath>..\..\Source\queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Source\portable\RVDS\ARM7_LPC21xx\port.c</FilePath>
+            </File>
+            <File>
+              <FileName>heap_2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Source\portable\MemMang\heap_2.c</FilePath>
+            </File>
+            <File>
+              <FileName>portASM.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\Source\portable\RVDS\ARM7_LPC21xx\portASM.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -865,7 +865,7 @@
               <MiscControls></MiscControls>
               <Define>ARM7_LPC21xx_KEIL_RVDS KEIL_THUMB_INTERWORK</Define>
               <Undefine></Undefine>
-              <IncludePath>.;..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Source\portable\RVDS\ARM7_LPC21xx;..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Demo\ARM7_LPC2129_Keil_RVDS\Starter_Files_V1\header;..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Demo\ARM7_LPC2129_Keil_RVDS\Starter_Files_V1\lib;..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Demo\Common\include;..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Source\include</IncludePath>
+              <IncludePath>.;..\..\Source\portable\RVDS\ARM7_LPC21xx;.\Starter_Files_V1\header;.\Starter_Files_V1\lib;..\Common\include;..\..\Source\include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -883,7 +883,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Source\portable\RVDS\ARM7_LPC21xx</IncludePath>
+              <IncludePath>..\..\Source\portable\RVDS\ARM7_LPC21xx</IncludePath>
             </VariousControls>
           </Aads>
           <LDads>
@@ -950,34 +950,34 @@
           <GroupName>FreeRTOS</GroupName>
           <Files>
             <File>
-              <FileName>port.c</FileName>
+              <FileName>tasks.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Source\portable\RVDS\ARM7_LPC21xx\port.c</FilePath>
-            </File>
-            <File>
-              <FileName>portASM.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Source\portable\RVDS\ARM7_LPC21xx\portASM.s</FilePath>
-            </File>
-            <File>
-              <FileName>heap_2.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Source\portable\MemMang\heap_2.c</FilePath>
+              <FilePath>..\..\Source\tasks.c</FilePath>
             </File>
             <File>
               <FileName>list.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Source\list.c</FilePath>
-            </File>
-            <File>
-              <FileName>tasks.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Source\tasks.c</FilePath>
+              <FilePath>..\..\Source\list.c</FilePath>
             </File>
             <File>
               <FileName>queue.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\free RTOS\FreeRTOS-Kernel-10.3.0\FreeRTOS\Source\queue.c</FilePath>
+              <FilePath>..\..\Source\queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Source\portable\RVDS\ARM7_LPC21xx\port.c</FilePath>
+            </File>
+            <File>
+              <FileName>heap_2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Source\portable\MemMang\heap_2.c</FilePath>
+            </File>
+            <File>
+              <FileName>portASM.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\Source\portable\RVDS\ARM7_LPC21xx\portASM.s</FilePath>
             </File>
           </Files>
         </Group>

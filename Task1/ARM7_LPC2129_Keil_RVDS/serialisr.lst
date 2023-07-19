@@ -340,11 +340,10 @@ ARM Macro Assembler    Page 6
               00000000 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\b
-in\serialisr.d -o.\bin\serialisr.o -I"..\..\..\..\..\free RTOS\FreeRTOS-Kernel-
-10.3.0\FreeRTOS\Source\portable\RVDS\ARM7_LPC21xx" -IC:\Keil_v5\ARM\RV31\INC -I
-C:\Keil_v5\ARM\CMSIS\Include -IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL S
-ETA 1" --predefine="__UVISION_VERSION SETA 529" --list=.\serialisr.lst serial\s
-erialISR.s
+in\serialisr.d -o.\bin\serialisr.o -I..\..\Source\portable\RVDS\ARM7_LPC21xx -I
+C:\Keil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM\CMSIS\Include -IC:\Keil_v5\ARM\INC\Phi
+lips --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 529" --lis
+t=.\serialisr.lst serial\serialISR.s
 
 
 
@@ -378,7 +377,7 @@ pxCurrentTCB 00000000
 
 Symbol: pxCurrentTCB
    Definitions
-      At line 29 in file ..\..\..\..\..\free
+      At line 29 in file ..\..\Source\portable\RVDS\ARM7_LPC21xx\portmacro.inc
    Uses
       At line 85 in macro portSAVE_CONTEXT
       at line 51 in file serial\serialISR.s
@@ -389,7 +388,7 @@ ulCriticalNesting 00000000
 
 Symbol: ulCriticalNesting
    Definitions
-      At line 28 in file ..\..\..\..\..\free
+      At line 28 in file ..\..\Source\portable\RVDS\ARM7_LPC21xx\portmacro.inc
    Uses
       At line 81 in macro portSAVE_CONTEXT
       at line 51 in file serial\serialISR.s
