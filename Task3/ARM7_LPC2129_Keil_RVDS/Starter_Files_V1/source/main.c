@@ -60,6 +60,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "lpc21xx.h"
+#include "semphr.h"
 
 /* Peripheral includes. */
 #include "serial.h"
@@ -81,25 +82,89 @@
  * file.
  */
 
-TaskHandle_t LedTask_Handler = NULL;
+
+
+QueueHandle_t xQueue1=NULL;
 
 static void prvSetupHardware( void );
 /*-----------------------------------------------------------*/
 
 /* Task to be created. */
-void Led_Task(void * pvParameters)
+
+void BTN_0(void * pvParameters)
 {
 	for( ; ; )
 	{
-		GPIO_write(PORT_0,PIN1, PIN_IS_HIGH);
-		
-		vTaskDelay(1000);
-		
-		GPIO_write(PORT_0,PIN1, PIN_IS_LOW);
-		
-		vTaskDelay(1000);
+		static uint8_t flag1=0,flag2=0;
+		signed char str1[14] = "BTN_0_RISING\n";
+		signed char str2[15] = "BTN_0_FALLING\n";
+		signed char* RISING_0 = str1;
+		signed char* FALLING_0 = str2;
+		flag2=GPIO_read(PORT_0, PIN0);
+		if(flag2==0 && flag1==1)
+		{
+			xQueueSend( xQueue1, ( void * ) &FALLING_0, ( TickType_t ) 0 );
+			vSerialPutString(FALLING_0, 15);
+		}
+		else if(flag2==1 && flag1==0)
+		{
+			xQueueSend( xQueue1, ( void * ) &RISING_0, ( TickType_t ) 0 );
+			vSerialPutString(RISING_0, 14);
+		}
+		flag1=flag2;
+		vTaskDelay(10);
 	}
 }
+
+void BTN_1(void * pvParameters)
+{
+	for( ; ; )
+	{
+		static uint8_t flag1=0,flag2=0;
+		signed char str1[14] = "BTN_1_RISING\n";
+		signed char str2[15] = "BTN_1_FALLING\n";
+		signed char* RISING_1 = str1;
+		signed char* FALLING_1 = str2;
+		flag2=GPIO_read(PORT_0, PIN1);
+		if(flag2==0 && flag1==1)
+		{
+			xQueueSend( xQueue1, ( void * ) &FALLING_1, ( TickType_t ) 0 );
+			vSerialPutString(FALLING_1, 15);
+		}
+		else if(flag2==1 && flag1==0)
+		{
+			xQueueSend( xQueue1, ( void * ) &RISING_1, ( TickType_t ) 0 );
+			vSerialPutString(RISING_1, 14);
+		}
+		flag1=flag2;
+		vTaskDelay(10);
+	}
+	
+}
+
+void Send_STR_Task(void * pvParameters)
+{
+	for( ; ; )
+	{
+		signed char str[7] = "Hello\n";
+		signed char* Hello = str;
+		xQueueSend( xQueue1, ( void * ) &Hello, ( TickType_t ) 0 );
+		vSerialPutString(Hello, 7);
+		vTaskDelay(100);
+	}
+	
+}
+
+void Consumer(void * pvParameters)
+{
+	for( ; ; )
+	{
+		char* PTR;
+		xQueueReceive(xQueue1, &( PTR ), ( TickType_t ) 10);
+		
+	}
+}
+
 
 /*
  * Application entry point:
@@ -110,16 +175,42 @@ int main( void )
 	/* Setup the hardware for use with the Keil demo board. */
 	prvSetupHardware();
 
+	xQueue1 = xQueueCreate( 10, sizeof( unsigned char )*15 );
 	
     /* Create Tasks here */
-		xTaskCreate(
-			Led_Task,
-			"Led_Task",
+	
+	xTaskCreate(
+			BTN_0,
+			"PTN_0_Task",
 			configMINIMAL_STACK_SIZE,
 			(void * ) NULL,
 			1,
-	&LedTask_Handler);
+			NULL);
+			
+		xTaskCreate(
+			BTN_1,
+			"BTN_1_Task",
+			configMINIMAL_STACK_SIZE,
+			(void * ) NULL,
+			1,
+			NULL);
 
+			xTaskCreate(
+			Send_STR_Task,
+			"Send_STR_Task",
+			configMINIMAL_STACK_SIZE,
+			(void * ) NULL,
+			1,
+			NULL);
+			
+			xTaskCreate(
+			Consumer,
+			"Consumer_Task",
+			configMINIMAL_STACK_SIZE,
+			(void * ) NULL,
+			1,
+			NULL);
+			
 	/* Now all the tasks have been started - start the scheduler.
 
 	NOTE : Tasks run in system mode and the scheduler runs in Supervisor mode.

@@ -58,8 +58,10 @@
 
 /* Scheduler includes. */
 #include "FreeRTOS.h"
+#include "semphr.h"
 #include "task.h"
 #include "lpc21xx.h"
+
 
 /* Peripheral includes. */
 #include "serial.h"
@@ -72,7 +74,7 @@
 #define mainBUS_CLK_FULL	( ( unsigned char ) 0x01 )
 
 /* Constants for the ComTest demo application tasks. */
-#define mainCOM_TEST_BAUD_RATE	( ( unsigned long ) 115200 )
+#define mainCOM_TEST_BAUD_RATE	( ( unsigned long ) 3750000  )
 
 
 /*
@@ -83,23 +85,80 @@
 
 TaskHandle_t LedTask_Handler = NULL;
 
+TaskHandle_t PBTask_Handler = NULL;
+
+SemaphoreHandle_t xSemaphore = NULL;
+
+#define Text_size 19
+
+#define Task1_delay 100
+
+#define Task2_delay 500
+
 static void prvSetupHardware( void );
 /*-----------------------------------------------------------*/
 
 /* Task to be created. */
-void Led_Task(void * pvParameters)
+
+void Task_1(void * pvParameters)
 {
 	for( ; ; )
 	{
-		GPIO_write(PORT_0,PIN1, PIN_IS_HIGH);
-		
-		vTaskDelay(1000);
-		
-		GPIO_write(PORT_0,PIN1, PIN_IS_LOW);
-		
-		vTaskDelay(1000);
+		if(xSemaphore!=NULL)
+		{
+			if(xSemaphoreTake(xSemaphore,portMAX_DELAY ) == pdTRUE)
+			{
+			const char * str2 = "Hello From Task 1 ";
+			
+			int i,j;
+			for(i=0;i<10;i++)
+			{
+				while (vSerialPutString(str2, Text_size) == pdFALSE);
+			}
+			while (vSerialPutString("\n", 1) == pdFALSE);
+			//xSerialPutChar('\n');
+			xSemaphoreGive(xSemaphore);
+			}
+			
+		}
+		else
+		{
+			const char * str4= "semaphore is Null\n";
+			vSerialPutString(str4 ,19);
+		}
+		vTaskDelay(Task1_delay);
 	}
 }
+
+void Task_2(void * pvParameters)
+{
+	for( ; ; )
+	{
+		if(xSemaphoreTake(xSemaphore, portMAX_DELAY ) == pdTRUE)
+		{
+
+		const char * str2= "Hello From Task 2 ";
+		
+		int i,j;
+		for(i=0;i<10;i++)
+		{
+			vSerialPutString(str2 ,Text_size);
+			for(j=0;j<100000;j++)
+			{
+				
+			}
+		}	
+		xSerialPutChar('\n');
+		xSemaphoreGive(xSemaphore);
+		}
+		
+		vTaskDelay(Task2_delay);
+	}
+	
+}
+
+
+
 
 /*
  * Application entry point:
@@ -110,16 +169,28 @@ int main( void )
 	/* Setup the hardware for use with the Keil demo board. */
 	prvSetupHardware();
 
+	xSemaphore = xSemaphoreCreateMutex();
 	
     /* Create Tasks here */
-		xTaskCreate(
-			Led_Task,
-			"Led_Task",
+	
+	xTaskCreate(
+			Task_1,
+			"Task_1",
 			configMINIMAL_STACK_SIZE,
 			(void * ) NULL,
 			1,
-	&LedTask_Handler);
+			NULL);
+			
+		xTaskCreate(
+			Task_2,
+			"Task_2",
+			configMINIMAL_STACK_SIZE,
+			(void * ) NULL,
+			2,
+			NULL);
 
+			
+			
 	/* Now all the tasks have been started - start the scheduler.
 
 	NOTE : Tasks run in system mode and the scheduler runs in Supervisor mode.
